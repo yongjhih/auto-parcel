@@ -257,12 +257,12 @@ public class AutoParcelProcessor extends AbstractProcessor {
 
       // parcelable
       "$[parcelable?\n\n",
-      "  public static final android.os.Parcelable.Creator<$[origclass]> CREATOR = new android.os.Parcelable.Creator<$[origclass]>() {",
-      "    @Override public $[origclass] createFromParcel(android.os.Parcel in) {",
+      "  public static final android.os.Parcelable.Creator<$[subclass]> CREATOR = new android.os.Parcelable.Creator<$[subclass]>() {",
+      "    @Override public $[subclass] createFromParcel(android.os.Parcel in) {",
       "      return new $[subclass](in);",
       "    }",
-      "    @Override public $[origclass][] newArray(int size) {",
-      "      return new $[origclass][size];",
+      "    @Override public $[subclass][] newArray(int size) {",
+      "      return new $[subclass][size];",
       "    }",
       "  };",
       "",
