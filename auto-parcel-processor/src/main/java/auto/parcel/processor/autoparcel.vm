@@ -59,7 +59,11 @@ final class $subclass$formalTypes extends $origClass$actualTypes {
   #end
 
   @Override
+  #if (!$p.typeParameters.isEmpty() && ${p.type} == "Observable")
+  ${p.access}${p.typeParameters[0]} ${p.getter}() {
+  #else
   ${p.access}${p.type} ${p.getter}() {
+  #end
 
   #if ($p.kind == "ARRAY")
 
@@ -75,7 +79,11 @@ final class $subclass$formalTypes extends $origClass$actualTypes {
 
   #else
 
+    #if (!$p.typeParameters.isEmpty() && ${p.type} == "Observable")
+    return ${p}.toBlocking().single();
+    #else
     return $p;
+    #end
 
   #end
 
@@ -92,7 +100,7 @@ final class $subclass$formalTypes extends $origClass$actualTypes {
   #foreach ($p in $props)
 
         + "$p.name=" ##
-        + #if ($p.kind == "ARRAY") ${arrays}.toString($p) #else $p #end
+        + #if ($p.kind == "ARRAY") ${arrays}.toString(${p.getter}) #else ${p.getter} #end
         #if ($foreach.hasNext) + ", " #end
 
   #end
@@ -105,17 +113,17 @@ final class $subclass$formalTypes extends $origClass$actualTypes {
 #if ($equals)
   #macro (equalsThatExpression $p)
     #if ($p.kind == "FLOAT")
-      Float.floatToIntBits(this.$p) == Float.floatToIntBits(that.${p.getter}()) ##
+      Float.floatToIntBits(this.${p.getter}) == Float.floatToIntBits(that.${p.getter}()) ##
     #elseif ($p.kind == "DOUBLE")
-      Double.doubleToLongBits(this.$p) == Double.doubleToLongBits(that.${p.getter}()) ##
+      Double.doubleToLongBits(this.${p.getter}) == Double.doubleToLongBits(that.${p.getter}()) ##
     #elseif ($p.kind.primitive)
-      this.$p == that.${p.getter}() ##
+      this.${p.getter} == that.${p.getter}() ##
     #elseif ($p.kind == "ARRAY")
-      ${arrays}.equals(this.$p, ##
+      ${arrays}.equals(this.${p.getter}, ##
           (that instanceof $subclass) ? (($subclass) that).$p : that.${p.getter}()) ##
     #else
-      #if ($p.nullable) (this.$p == null) ? (that.${p.getter}() == null) : #end ##
-          this.${p}.equals(that.${p.getter}()) ##
+      #if ($p.nullable) (this.${p.getter} == null) ? (that.${p.getter}() == null) : #end ##
+          this.${p.getter}.equals(that.${p.getter}()) ##
     #end
   #end
 

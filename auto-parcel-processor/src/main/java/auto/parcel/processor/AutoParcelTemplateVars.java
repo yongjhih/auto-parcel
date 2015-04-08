@@ -470,6 +470,8 @@ class AutoParcelTemplateVars extends TemplateVars {
    */
   Set<String> validators = Collections.emptySet();
 
+  List<String> typeParameters = Collections.emptyList();
+
   private static final SimpleNode TEMPLATE = parsedTemplateForResource(templateStr, "autoparcel.vm");
 
   @Override
